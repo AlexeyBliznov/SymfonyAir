@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation{% endblock %}
+
+{% block body %}
+    Your ticket number is {{ ticket.ticketNumber }}
+
+    Options {{ option.name }}
+
+    Baggage - {{ baggage }}
+
+    General price {{ticket.price + option.price}}</br>
+
+    <form action="{{ path('completition', {
+        'ticket':ticket.id,
+        'option':option.id,
+        'baggage':baggage
+    }) }}">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" value={{ userName }}><br>
+    <label for="email">Email:</label><br>
+    <input type="text" id="email" name="email" value={{ email }}>
+    <input type="submit" value="Buy">
+    </form>
+
+{% endblock %}

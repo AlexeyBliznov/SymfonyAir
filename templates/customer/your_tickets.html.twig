@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tickets{% endblock %}
+
+{% block body %}
+    Tickets: </br>
+
+    {% for ticket in tickets %}
+        <li>{{ ticket.flight.pointOfDeparture }} - {{ ticket.flight.arrivalPoint }} - {{ ticket.seatNumber }}</li>
+    {% endfor %}
+{% endblock %}

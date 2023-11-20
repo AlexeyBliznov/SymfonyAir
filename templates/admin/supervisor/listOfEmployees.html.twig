@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employees{% endblock %}
+
+{% block body %}
+    <h1>Employees</h1>
+
+    {% for admin in admins %}
+        <ul>
+            <li>{{ admin.name }} - {{ admin.role.name }} - <a href="/admin/supervisor/employees/remove/{{ admin.id }}">Remove</a> </li>
+        </ul>
+    {% endfor %}
+{% endblock %}

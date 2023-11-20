@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add options{% endblock %}
+
+{% block body %}
+    <h1>Add options</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.options, {
+        label: 'Options'
+    }) }}
+    {{ form_row(form.baggage, {
+        label: 'Baggage'
+    }) }}
+
+    <button type="submit" class="btn">Add</button>
+    {{ form_end(form) }}
+{% endblock %}

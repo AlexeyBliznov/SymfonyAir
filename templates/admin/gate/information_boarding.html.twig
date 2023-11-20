@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirm{% endblock %}
+
+{% block body %}
+    You are {{ user.name }}<br>
+
+    Confirm this passenger<br>
+    Name {{ passenger.name }}<br>
+    From {{ flight.pointOfDeparture }}<br>
+    To {{ flight.arrivalPoint }}<br>
+    <a href="{{ path('confirm_boarding', {'ticketId':ticket.id}) }}">Confirm</a>
+{% endblock %}

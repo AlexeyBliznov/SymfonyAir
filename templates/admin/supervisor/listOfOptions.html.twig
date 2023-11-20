@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Options{% endblock %}
+
+{% block body %}
+    <h1>Options</h1>
+
+    {% for option in options %}
+        <ul>
+            <li>{{ option.name }} - {{ option.price }} - <a href="/admin/supervisor/options/remove/{{ option.id }}">Remove</a> </li>
+        </ul>
+    {% endfor %}
+{% endblock %}

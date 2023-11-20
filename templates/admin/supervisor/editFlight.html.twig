@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit flight{% endblock %}
+
+{% block body %}
+    <h1>Edit flight</h1>
+
+    {{ form_start(editForm) }}
+    {{ form_row(editForm.pointOfDeparture) }}
+    {{ form_row(editForm.arrivalPoint) }}
+    {{ form_row(editForm.planeId) }}
+    {{ form_row(editForm.departureTime) }}
+    {{ form_row(editForm.arrivalTime) }}
+
+    <button type="submit" class="btn">Edit</button>
+    {{ form_end(editForm) }}
+{% endblock %}
+s

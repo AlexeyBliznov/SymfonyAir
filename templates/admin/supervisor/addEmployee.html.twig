@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add employee{% endblock %}
+
+{% block body %}
+    <h1>Add employee</h1>
+
+    {{ form_start(addForm) }}
+    {{ form_row(addForm.email) }}
+    {{ form_row(addForm.name) }}
+    {{ form_row(addForm.role) }}
+
+    <button type="submit" class="btn">Add</button>
+    {{ form_end(addForm) }}
+{% endblock %}

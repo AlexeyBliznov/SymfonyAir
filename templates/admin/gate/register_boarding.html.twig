@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to GateAdmin{% endblock %}
+
+{% block body %}
+    You are {{ user.name }}
+
+    <form action="{{ path('information_boarding') }}">
+        <label for="number">Ticket #</label>
+            <input type="text" id="number" name="number">
+        <button type="submit">Find</button>
+    </form>
+{% endblock %}

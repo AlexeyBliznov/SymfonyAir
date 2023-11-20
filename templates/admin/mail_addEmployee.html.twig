@@ -1,0 +1,14 @@
+{% extends 'mail.html.twig' %}
+
+{% block title %}Approve{% endblock %}
+
+{% block body %}
+
+    <p>You can use your account</p>
+
+    <p>Your login {{ email }}</p>
+    <p>Your password {{ password }}</p>
+
+    {% set url = url('app_login') %}
+
+{% endblock %}

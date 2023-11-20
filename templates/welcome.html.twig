@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to SymfonyAir{% endblock %}
+
+{% block body %}
+<form action="{{ path('search_tickets') }}" method="post">
+    <label for="from">From:</label>
+    <input type="text" id="from" name="from" placeholder="Ex. London">
+
+    <label for="to">To:</label>
+    <input type="text" id="to" name="to" placeholder="Ex. London">
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date">
+
+    <label for="countOfPassengers">Count of passengers:</label>
+    <select id="countOfPassengers" name="countOfPassengers">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <button type="submit">Seach</button>
+</form>
+{% if user == null %}
+    <a href="{{ path('app_login') }}">Login</a>
+    <a href="{{ path('app_register') }}">SignIn</a>
+{% else %}
+    <a href="{{ path('personal_account') }}">Personal account</a>
+{% endif %}
+    
+{% endblock %}

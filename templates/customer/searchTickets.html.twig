@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FLights{% endblock %}
+
+{% block body %}
+    <h1>Flights</h1>
+
+    {% for flight in flights %}
+        <ul>
+            <li>{{ flight.pointOfDeparture }} - {{ flight.arrivalPoint }} - {{ flight.airplane.id}} - {{ flight.departureTimeString}} <a href="/chooseTicket/{{ flight.id }}" >Buy</a></li>
+        </ul>
+    {% endfor %}
+{% endblock %}

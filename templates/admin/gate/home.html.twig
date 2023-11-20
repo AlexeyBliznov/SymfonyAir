@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to GateAdmin{% endblock %}
+
+{% block body %}
+    Hello {{ user.name }}
+
+    <a href="{{ path('register_boarding') }}">Register boarding</a>
+{% endblock %}

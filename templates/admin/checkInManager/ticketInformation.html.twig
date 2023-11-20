@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ticket{% endblock %}
+
+{% block body %}
+    <h1>Ticket</h1>
+
+    Passenger - {{ ticket.user.name }}
+    Flight - {{ ticket.flight.pointOfDeparture }}
+
+    <a href="/admin/checkInManager/ticket/{{ticket.ticketNumber}}/confirm">Confirm</a>
+{% endblock %}

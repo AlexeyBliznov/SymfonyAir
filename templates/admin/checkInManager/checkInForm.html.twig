@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CheckIn{% endblock %}
+
+{% block body %}
+
+    <form action="{{ path('checkIn_passenger') }}" method="post">
+
+        <label for="ticketNumber">Ticket's number:</label>
+        <input type="text" id="ticketNumber" name="ticketNumber">
+
+        <button type="submit">Find</button>
+    </form>
+{% endblock %}

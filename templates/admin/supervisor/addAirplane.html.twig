@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add airplane{% endblock %}
+
+{% block body %}
+    <h1>Add airplane</h1>
+
+    {{ form_start(addForm) }}
+    {{ form_row(addForm.name) }}
+    {{ form_row(addForm.productionYear) }}
+    {{ form_row(addForm.maintenanceSchedule) }}
+    {{ form_row(addForm.nextMaintenance) }}
+    {{ form_row(addForm.type) }}
+
+    <button type="submit" class="btn">Add</button>
+    {{ form_end(addForm) }}
+{% endblock %}

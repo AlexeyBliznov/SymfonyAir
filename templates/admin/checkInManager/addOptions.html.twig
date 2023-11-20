@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Options{% endblock %}
+
+{% block body %}
+    <h1>Ticket's options</h1>
+
+    {% for ticketOptions as ticketOption %}
+        <ul>
+            <li>{{ ticketOption.name }} - {{ ticketOption.description }}</li>
+        </ul>
+    {% endfor %}
+
+    <h1>Options</h1>
+
+    {% for options as option %}
+        <ul>
+            <li>{{ option.name }} - {{ option.description }} - {{ option.price }} - <a href="/admin/checkInManager/ticket/{{ ticketNumber }}/addOptions/{{ option.id }}">Add</a> </li>
+        </ul>
+    {% endfor %}
+{% endblock %}

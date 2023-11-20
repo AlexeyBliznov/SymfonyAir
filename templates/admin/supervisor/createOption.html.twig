@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create option{% endblock %}
+
+{% block body %}
+    <h1>Create option</h1>
+
+    {{ form_start(createForm) }}
+    {{ form_row(createForm.name) }}
+    {{ form_row(createForm.description) }}
+    {{ form_row(createForm.price) }}
+
+    <button type="submit" class="btn">Create</button>
+    {{ form_end(createForm) }}
+{% endblock %}

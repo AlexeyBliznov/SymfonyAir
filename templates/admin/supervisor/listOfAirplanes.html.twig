@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Airplanes{% endblock %}
+
+{% block body %}
+    <h1>Airplanes</h1>
+
+    {% for airplane in airplanes %}
+        <ul>
+            <li>{{ airplane.model }} - {{ airplane.type }} - <a href="/admin/supervisor/airplanes/remove/{{ airplane.id }}">Remove</a> </li>
+        </ul>
+    {% endfor %}
+{% endblock %}

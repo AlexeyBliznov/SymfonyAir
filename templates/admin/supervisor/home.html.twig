@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to SupervisorAdmin{% endblock %}
+
+{% block body %}
+    Hello {{ user.name }}
+
+    <a href="{{ path('add_employee') }}">Add employee</a>
+    <a href="{{ path('add_flight') }}">Add flight</a>
+    <a href="{{ path('add_airplane') }}">Add airplane</a>
+    <a href="{{ path('create_option') }}">Add option</a>
+{% endblock %}

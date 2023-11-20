@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account{% endblock %}
+
+{% block body %}
+    Hello {{ user.name }}
+
+    <a href="{{ path('your_tickets') }}">Your tickets</a>
+{% endblock %}
