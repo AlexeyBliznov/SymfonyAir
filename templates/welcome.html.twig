@@ -3,32 +3,91 @@
 {% block title %}Welcome to SymfonyAir{% endblock %}
 
 {% block body %}
-<form action="{{ path('search_tickets') }}" method="post">
-    <label for="from">From:</label>
-    <input type="text" id="from" name="from" placeholder="Ex. London">
-
-    <label for="to">To:</label>
-    <input type="text" id="to" name="to" placeholder="Ex. London">
-
-    <label for="date">Date:</label>
-    <input type="date" id="date" name="date">
-
-    <label for="countOfPassengers">Count of passengers:</label>
-    <select id="countOfPassengers" name="countOfPassengers">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select>
-
-    <button type="submit">Seach</button>
+<div class="nav">
+    <div id="logo">
+        <h1>SymfonyAir</h1>
+    </div>
+    <div class="navItem">
+        <a href="#">Top flights</a>
+    </div>
+    <div class="navItem">
+        <a href="#">Plan</a>
+    </div>
+    <div class="navItem">
+        <a href="#">Information & services</a>
+    </div>
+    <div class="navItem">
+        <a href="#">Check-in & bookings</a>
+    </div>
+    {% if user == null %}
+    <div class="navItem">
+        <a href="{{ path('app_register') }}">Sign in</a>
+    </div>
+    {% else %}
+    <div class="navItem">
+        <a href="{{ path('personal_account') }}">Personal account</a>
+    </div>
+    {% endif %}
+</div>
+<div class="conteiner">
+        <div class="digitalClock">
+            <h1 id="day">MON</h1>
+            <h1 id="hour">08</h1>
+            <h1 id="bar1">|</h1>
+            <h1 id="minute">30</h1>
+            <h1 id="bar2">|</h1>
+            <h1 id="second">35</h1>
+            <h1 id="bar3">|</h1>
+            <h1 id="ampm">AM</h1>
+        </div>
+    </div>
+    <div class="conteinerForm">
+<form action="{{ path('search_tickets') }}" method="post" name="searchForm" onsubmit="return validateSearchForm()">
+    <div class="form">
+        <div class="formField">
+            <!-- <label for="from">From:</label> -->
+            <input class="inputField" type="text" id="from" name="from" placeholder="From">
+        </div>
+        <p id="error" style="color:red; text-align:center; display: none;"></p>
+        <div class="formField">
+            <!-- <label for="to">To:</label> -->
+            <input class="inputField" type="text" id="to" name="to" placeholder="To">
+        </div>
+        <div class="formField">
+            <!-- <label for="date">Date:</label> -->
+            <input id="calendar" class="inputField" type="text" name="date" placeholder="Date" readonly>
+        </div>
+        <div class="formField">
+            <label for="countOfPassengers">Count of passengers:</label>
+            <!-- <select class="inputField" id="countOfPassengers" name="countOfPassengers">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select> -->
+            <input id="passengers" class="inputField" type="text" name="passengers" value="1" readonly>
+            <div class="submenu" id="submenu" style="display: none;">
+                <div>
+                    <div class="submenu_fields">
+                        <button id="adjustment_decrement" class="adjustment">-</button>
+                        <input id="adjustment_count" type="text" readonly>
+                        <button id="adjustment_increment" class="adjustment">+</button>
+                    </div>
+                    <div class="submenu_fields">
+                        <button id="button_confirm">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="conteinerButton">
+            <button id="btnSearchForm" class="btnForm" type="submit">Search</button>
+        </div>
+    </div>
+    <!-- <div class="conteinerButton">
+        <button id="btnSearchForm" class="btnForm" type="submit">Search</button>
+    </div> -->
 </form>
-{% if user == null %}
-    <a href="{{ path('app_login') }}">Login</a>
-    <a href="{{ path('app_register') }}">SignIn</a>
-{% else %}
-    <a href="{{ path('personal_account') }}">Personal account</a>
-{% endif %}
-    
+</div>
+
 {% endblock %}

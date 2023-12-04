@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231119093726 extends AbstractMigration
+final class Version20231127081551 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,7 +24,7 @@ final class Version20231119093726 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE airplane_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE flight_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE option_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE SEQUENCE sold_ticket_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
+        $this->addSql('CREATE SEQUENCE passenger_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE ticket_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE "admin" (id INT NOT NULL, name VARCHAR(180) DEFAULT NULL, email VARCHAR(180) NOT NULL, role VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
@@ -38,6 +38,9 @@ final class Version20231119093726 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN flight.departure_time IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN flight.arrival_time IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE option (id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, price INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE passenger (id INT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, expires TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_3BEFE8DDE7927C74 ON passenger (email)');
+        $this->addSql('COMMENT ON COLUMN passenger.expires IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE sold_ticket (id INT NOT NULL, flight_id INT DEFAULT NULL, user_id INT DEFAULT NULL, ticket_number INT NOT NULL, seat_type VARCHAR(255) NOT NULL, seat_number VARCHAR(5) NOT NULL, baggage VARCHAR(255) NOT NULL, discount VARCHAR(255) DEFAULT NULL, boarding_confirm BOOLEAN NOT NULL, check_in BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_31A2934CECD2759F ON sold_ticket (ticket_number)');
         $this->addSql('CREATE INDEX IDX_31A2934C91F478C5 ON sold_ticket (flight_id)');
@@ -81,7 +84,7 @@ final class Version20231119093726 extends AbstractMigration
         $this->addSql('DROP SEQUENCE airplane_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE flight_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE option_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE sold_ticket_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE passenger_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE ticket_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE "user_id_seq" CASCADE');
         $this->addSql('ALTER TABLE flight DROP CONSTRAINT FK_C257E60E996E853C');
@@ -94,6 +97,7 @@ final class Version20231119093726 extends AbstractMigration
         $this->addSql('DROP TABLE airplane');
         $this->addSql('DROP TABLE flight');
         $this->addSql('DROP TABLE option');
+        $this->addSql('DROP TABLE passenger');
         $this->addSql('DROP TABLE sold_ticket');
         $this->addSql('DROP TABLE sold_ticket_option');
         $this->addSql('DROP TABLE ticket');

@@ -6,17 +6,24 @@
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-
+<div class="conteinerForm">
     <form action="{{ path('app_login') }}" method="post">
-
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
-
-        <button type="submit">login</button>
-    </form>
-
-    <a href="{{ path('connect_google_start') }}">With google</a>
+        <div class="form">
+            <div class="formField">
+                <label for="username">Email:</label>
+                <input class="inputField" type="text" id="username" name="_username" value="{{ last_username }}">
+            </div>
+            <div class="formField">
+                <label for="password">Password:</label>
+                <input class="inputField" type="password" id="password" name="_password">
+            </div>
+            <div class="conteinerButton">
+                <button class="btnForm" type="submit">login</button>
+            </div>
+        </div>
+    </form>    
+</div>
+<div class="conteinerMenu">
+    <a class="btnMenu" href="{{ path('connect_google_start') }}">With google</a>
+</div>
     {% endblock %}

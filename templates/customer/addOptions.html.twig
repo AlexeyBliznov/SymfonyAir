@@ -3,16 +3,21 @@
 {% block title %}Add options{% endblock %}
 
 {% block body %}
+<div class="conteiner">
     <h1>Add options</h1>
-
+</div>
+<div class="conteinerForm">
     {{ form_start(form) }}
-    {{ form_row(form.options, {
-        label: 'Options'
-    }) }}
-    {{ form_row(form.baggage, {
-        label: 'Baggage'
-    }) }}
+    <div class="form">
+    {{ form_label(form.options, 'Options') }}
+    {{ form_widget(form.options, {'attr': {'class': 'inputField'}}) }}
+    {{ form_label(form.baggage, 'Baggage') }}
+    {{ form_widget(form.baggage, {'attr': {'class': 'inputField'}}) }}
 
-    <button type="submit" class="btn">Add</button>
+        <div class="conteinerButton">
+            <button class="btnForm" type="submit" class="btn">Add</button>
+        </div>
+    </div>
     {{ form_end(form) }}
+    </div>
 {% endblock %}

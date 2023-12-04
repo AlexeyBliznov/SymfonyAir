@@ -3,24 +3,34 @@
 {% block title %}Confirmation{% endblock %}
 
 {% block body %}
-    Your ticket number is {{ ticket.ticketNumber }}
+<div class="generalInformation">
+    Your ticket number is {{ ticket.ticketNumber }}</br>
 
-    Options {{ option.name }}
+    Options {{ option.name }}</br>
 
-    Baggage - {{ baggage }}
+    Baggage - {{ baggage }}</br>
 
     General price {{ticket.price + option.price}}</br>
-
+</div>
+<div class="conteinerForm">
     <form action="{{ path('completition', {
         'ticket':ticket.id,
         'option':option.id,
         'baggage':baggage
     }) }}">
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name" value={{ userName }}><br>
-    <label for="email">Email:</label><br>
-    <input type="text" id="email" name="email" value={{ email }}>
-    <input type="submit" value="Buy">
+        <div class="form">
+            <div class="formField">
+                <label for="name">Name:</label><br>
+                <input class="inputField" type="text" id="name" name="name" value={{ userName }}><br>
+            </div>
+            <div class="formField">
+                <label for="email">Email:</label><br>
+                <input class="inputField" type="text" id="email" name="email" value={{ email }}>
+            </div>
+            <div class="conteinerButton">
+                <button class="btnForm" type="submit">Buy</button>
+            </div>
+        </div>
     </form>
-
+</div>
 {% endblock %}

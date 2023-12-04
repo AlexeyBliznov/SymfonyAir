@@ -65,10 +65,12 @@ class FlightRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
-    public function searchFlightByDate(string $date): array
+    public function searchFlightByToDate(string $to, string $date): array
     {
         return $this->createQueryBuilder('f')
-            ->where('f.date = :date')
+            ->where('f.arrivalPoint = :to')
+            ->setParameter(':to', $to)
+            ->andWhere('f.departureTime = :date')
             ->setParameter(':date', $date)
             ->getQuery()->getResult();
     }

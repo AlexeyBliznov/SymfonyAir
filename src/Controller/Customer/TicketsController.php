@@ -33,33 +33,67 @@ class TicketsController extends AbstractController
     #[Route('/search', name: 'search_tickets')]
     public function searchTickets(Request $request, FlightRepository $flightRepository): Response
     {
-        if ($request->get('from')&$request->get('to')&$request->get('date')) {
-            $flights = $flightRepository->searchFlight($request->get('from'), $request->get('to'), $request->get('date'));
-            return $this->render('customer/searchTickets.html.twig', [
-                'flights' => $flights
-            ]);
-        } elseif ($request->get('from')&$request->get('to')) {
-            $flights = $flightRepository->searchFlightByFromAndTo($request->get('from'), $request->get('to'));
-            return $this->render('customer/searchTickets.html.twig', [
-                'flights' => $flights
-            ]);
-        } elseif ($request->get('from')&$request->get('date')) {
-            $flights = $flightRepository->searchFlightByFromAndDate($request->get('from'), $request->get('date'));
-            return $this->render('customer/searchTickets.html.twig', [
-                'flights' => $flights
-            ]);
-        } elseif ($request->get('from')) {
-            $flights = $flightRepository->searchFlightByFrom($request->get('from'));
-            return $this->render('customer/searchTickets.html.twig', [
-                'flights' => $flights
-            ]);
-        } elseif ($request->get('date')) {
-            $flights = $flightRepository->searchFlightByDate($request->get('date'));
-            return $this->render('customer/searchTickets.html.twig', [
-                'flights' => $flights
-            ]);
-        }
+        // if ($request->get('from')&$request->get('to')&$request->get('date')) {
+        //     $flights = $flightRepository->searchFlight($request->get('from'), $request->get('to'), $request->get('date'));
+        //     return $this->render('customer/searchTickets.html.twig', [
+        //         'flights' => $flights
+        //     ]);
+        // } elseif ($request->get('from')&$request->get('to')) {
+        //     $flights = $flightRepository->searchFlightByFromAndTo($request->get('from'), $request->get('to'));
+        //     return $this->render('customer/searchTickets.html.twig', [
+        //         'flights' => $flights
+        //     ]);
+        // } elseif ($request->get('from')&$request->get('date')) {
+        //     $flights = $flightRepository->searchFlightByFromAndDate($request->get('from'), $request->get('date'));
+        //     return $this->render('customer/searchTickets.html.twig', [
+        //         'flights' => $flights
+        //     ]);
+        // } elseif ($request->get('from')) {
+        //     $flights = $flightRepository->searchFlightByFrom($request->get('from'));
+        //     return $this->render('customer/searchTickets.html.twig', [
+        //         'flights' => $flights
+        //     ]);
+        // } elseif ($request->get('date')) {
+        //     $flights = $flightRepository->searchFlightByDate($request->get('date'));
+        //     return $this->render('customer/searchTickets.html.twig', [
+        //         'flights' => $flights
+        //     ]);
+        // }
 
+        
+        switch(true) {
+            case $request->get('from')&$request->get('to')&$request->get('date'):
+                $flights = $flightRepository->searchFlight($request->get('from'), $request->get('to'), $request->get('date'));
+                return $this->render('customer/searchTickets.html.twig', [
+                    'flights' => $flights
+                ]);
+                break;
+            case $request->get('from')&$request->get('to'):
+                $flights = $flightRepository->searchFlightByFromAndTo($request->get('from'), $request->get('to'));
+                return $this->render('customer/searchTickets.html.twig', [
+                    'flights' => $flights
+                ]);
+                break;
+            case $request->get('from')&$request->get('date'):
+                $flights = $flightRepository->searchFlightByFromAndDate($request->get('from'), $request->get('date'));
+                return $this->render('customer/searchTickets.html.twig', [
+                    'flights' => $flights
+                ]);
+                break;
+            case $request->get('from'):
+                $flights = $flightRepository->searchFlightByFrom($request->get('from'));
+                return $this->render('customer/searchTickets.html.twig', [
+                    'flights' => $flights
+                ]);
+                break;
+            case $request->get('to')&$request->get('date'):
+                $flights = $flightRepository->searchFlightByToDate($request->get('to'), $request->get('date'));
+                return $this->render('customer/searchTickets.html.twig', [
+                    'flights' => $flights
+                ]);
+                break;
+        }
+        
         return $this->redirectToRoute('welcome');
     }
     
@@ -182,7 +216,9 @@ class TicketsController extends AbstractController
         $option = $optionRepository->find($option);
         $baggageObj = new Baggage($baggage);
         $soldTicket = new SoldTicket($ticket->getTicketNumber(), $ticket->getFlight(), $user, $ticket->getSeatTypeObj(), $ticket->getSeatNumber(), $baggageObj);
-        $soldTicket->addOption($option);
+        if($option) {
+            $soldTicket->addOption($option);
+        };
         $entityManager->persist($soldTicket);
         $entityManager->flush();
         $mailTicketSender->send($request->get('email'), (string)$ticket->getTicketNumber());

@@ -3,15 +3,25 @@
 {% block title %}Flight{% endblock %}
 
 {% block body %}
-    <h1>Flight</h1>
-
-    Flight - {{ flight.arrivalPoint }} . {{ flight.arrivalTimeString }}
-
-    Tickets = 
+<div class="conteinerForm">
+    <h1>Flight {{ flight.pointOfDeparture }} - {{ flight.arrivalPoint }}</h1>
+</div>
+    <div class="generalInformation">
+        Departure - {{ flight.departureTimeString }}</br>
+        Arrival - {{ flight.arrivalTimeString }}</br>
+        Price - {{ tickets[0].price }}$
+    </div>
+<div class="generalInformation" style="margin-top: 30px;">
+    You can choose seats
+</div> 
     <ul>
-    {% for ticket in tickets %}
-        <li>{{ ticket.seatType }} - {{ ticket.price }} - <a href="/addOptions/{{ ticket.id }}">Buy</a></li>
-    {% endfor %}
+        <div class="flexbox">
+        {% for ticket in tickets %}
+        <div>
+            <li>{{ ticket.seatType }}  - <a href="/addOptions/{{ ticket.id }}">Buy</a></li>
+        </div>
+        {% endfor %}
+        </div>
     </ul>
 
 

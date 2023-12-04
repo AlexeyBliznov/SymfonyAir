@@ -152,7 +152,7 @@ class Flight
      */
     public function getDepartureTimeString(): string 
     {
-        return $this->departureTime->format('Y-m-d');
+        return $this->departureTime->format('Y-m-d h:i');
     }
 
     /**
@@ -176,7 +176,7 @@ class Flight
      */
     public function getArrivalTimeString(): string
     {
-        return $this->arrivalTime->format('Y-m-d h:m');
+        return $this->arrivalTime->format('Y-m-d h:i');
     }
 
     /**

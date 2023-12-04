@@ -3,11 +3,33 @@
 {% block title %}FLights{% endblock %}
 
 {% block body %}
+<div id="search_header">
+<div class="nav">
+    <div id="logo">
+        <h1>SymfonyAir</h1>
+    </div>
+    <div class="navItem">
+        <a href="#">Top flights</a>
+    </div>
+    <div class="navItem">
+        <a href="#">Plan</a>
+    </div>
+    <div class="navItem">
+        <a href="#">Information & services</a>
+    </div>
+    <div class="navItem">
+        <a href="#">Check-in & bookings</a>
+    </div>
+</div>
+<div id="article">
     <h1>Flights</h1>
-
+</div>
+</div>
     {% for flight in flights %}
+    <div class="list">
         <ul>
-            <li>{{ flight.pointOfDeparture }} - {{ flight.arrivalPoint }} - {{ flight.airplane.id}} - {{ flight.departureTimeString}} <a href="/chooseTicket/{{ flight.id }}" >Buy</a></li>
+            <li>{{ flight.pointOfDeparture }} &#8658; {{ flight.arrivalPoint }} &nbsp;&nbsp;&nbsp;&nbsp; <p id="symbolCalendar"></p> {{ flight.departureTimeString}} <a href="/chooseTicket/{{ flight.id }}" >More information</a></li>
         </ul>
+    </div>
     {% endfor %}
 {% endblock %}

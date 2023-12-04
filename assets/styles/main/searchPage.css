@@ -1,0 +1,59 @@
+.list{
+    width: 60vw;
+    margin: auto;
+    font-size: 1.2em;
+}
+
+.list li{
+    border: 1px solid black;
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list li a{
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5%;
+    width: 170px;
+    height: 30px;
+    color: rgb(45, 44, 44);
+    background-color: rgb(108, 156, 227);
+    font-size: 0.8em;
+}
+
+.list li a:hover{
+    background-color: blue;
+    color: white;
+}
+
+#article{
+    display: flex;
+    height: 28vh;
+    justify-content: center;
+    align-items: center;
+}
+
+#search_header{
+    background-image: url(/images/article.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position-y: 85%;
+    background-attachment: fixed; 
+}
+
+#symbolCalendar{
+    background-image: url(/images/calendarSymbol.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-right: -100px;
+    width: 20px;
+    height: 20px;
+}

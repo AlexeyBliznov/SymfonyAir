@@ -3,9 +3,12 @@
 {% block title %}Tickets{% endblock %}
 
 {% block body %}
-    Tickets: </br>
-
+<div class="conteiner">
+    <h1>Your tickets:</h1> </br>
+</div>
+<div class="list">
     {% for ticket in tickets %}
         <li>{{ ticket.flight.pointOfDeparture }} - {{ ticket.flight.arrivalPoint }} - {{ ticket.seatNumber }}</li>
     {% endfor %}
+</div>
 {% endblock %}
