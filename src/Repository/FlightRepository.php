@@ -93,4 +93,9 @@ class FlightRepository extends ServiceEntityRepository
     {
         return $this->findOneBy(['airplane' => $airplane]);
     }
+
+    public function getAllFlights(): array
+    {
+        return $this->findAll();        
+    }
 }

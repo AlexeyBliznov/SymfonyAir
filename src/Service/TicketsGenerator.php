@@ -22,9 +22,9 @@ class TicketsGenerator
     public function getTickets(Flight $flight, int $price): void
     {
         $letters = ['A', 'B', 'C', 'D', 'E', 'F'];
-        for($i = 1; $i <= 25; $i++) {
+        for($i = 1; $i <= 21; $i++) {
             foreach($letters as $letter) {
-                if ($i === 12) {
+                if ($i === 10) {
                     $seatType = new Seat('EMERGENCY');
                 } elseif ($letter === 'A' || $letter === 'F') {
                     $seatType = new Seat('WINDOW');

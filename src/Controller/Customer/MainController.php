@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Customer;
 
+use App\Repository\FlightRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,17 +21,21 @@ class MainController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'welcome')]
-    public function welcome(): Response
+    public function welcome(FlightRepository $flightRepository): Response
     {
-        $user = $this->getUser();
-        if ((bool)$user) {
-            return $this->render('welcome.html.twig', [
-                'user' => $user
-            ]);
+        $flights = $flightRepository->getAllFlights();
+        $orderedFlights = [];
+        foreach($flights as $flight) {
+            $orderedFlights[] = $flight->getPointOfDeparture();
         }
+        $user = $this->getUser();
+        if (!(bool)$user) {
+            $user = null;
+        };
 
         return $this->render('welcome.html.twig', [
-            'user' => null
+            'user' => $user,
+            'flights' => array_unique($orderedFlights)
         ]);
     }
 

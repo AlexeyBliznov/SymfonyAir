@@ -46,12 +46,23 @@
     <div class="form">
         <div class="formField">
             <!-- <label for="from">From:</label> -->
-            <input class="inputField" type="text" id="from" name="from" placeholder="From">
+            <input list="options" autocomplete="off" class="inputField" type="text" id="from" name="from" placeholder="From">
+            <datalist id="options">
+                <div id="mainOptions">
+                    {% for flight in flights %}
+                        <option value="{{ flight }}">
+                    {% endfor %}
+                </div>
+            </datalist>
         </div>
         <p id="error" style="color:red; text-align:center; display: none;"></p>
         <div class="formField">
             <!-- <label for="to">To:</label> -->
-            <input class="inputField" type="text" id="to" name="to" placeholder="To">
+            <input list="directions" class="inputField" autocomplete="off" type="text" id="to" name="to" placeholder="To" disabled>
+            <datalist id="directions">
+                <div id="mainDirections">
+                </div>
+            </datalist>
         </div>
         <div class="formField">
             <!-- <label for="date">Date:</label> -->
@@ -68,7 +79,7 @@
             </select> -->
             <input id="passengers" class="inputField" type="text" name="passengers" value="1" readonly>
             <div class="submenu" id="submenu" style="display: none;">
-                <div>
+                <div id="submenu_div">
                     <div class="submenu_fields">
                         <button id="adjustment_decrement" class="adjustment">-</button>
                         <input id="adjustment_count" type="text" readonly>
