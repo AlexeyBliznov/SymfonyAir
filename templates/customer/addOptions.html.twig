@@ -7,17 +7,40 @@
     <h1>Add options</h1>
 </div>
 <div class="conteinerForm">
-    {{ form_start(form) }}
-    <div class="form">
-    {{ form_label(form.options, 'Options') }}
-    {{ form_widget(form.options, {'attr': {'class': 'inputField'}}) }}
-    {{ form_label(form.baggage, 'Baggage') }}
-    {{ form_widget(form.baggage, {'attr': {'class': 'inputField'}}) }}
-
-        <div class="conteinerButton">
-            <button class="btnForm" type="submit" class="btn">Add</button>
+    <form action="{{ path('confirmation') }}" method="post" name="addOptionForm">
+        {% for ticket in tickets %}
+        <div>
+            {{ ticket.seatNumber }} - {{ ticket.seatType }} - {{ ticket.price }}</br>
+            <label for="baggage">Baggage:</label>
+                <select id="baggage" name="baggage[{{ ticket.id }}]">
+                    <option value='HAND BAGGAGE'>HAND BAGGAGE</option>
+                    <option value='BAGGAGE'>BAGGAGE</option>
+                    <option value='PETS + HAND BAGGAGE'>PETS + HAND BAGGAGE</option>
+                    <option value='PETS + BAGGAGE'>PETS + BAGGAGE</option>
+                </select>
+            {# {% if options is empty %} 
+                <label for="options">Options:</label>
+                <select id="options" name="options[{{ ticket.id }}]">
+                    <option value='no_options'>No options</option>
+                </select>
+            {% else %} 
+            <label for="options">Options:</label>
+                    <select id="options" name="options[{{ ticket.id }}]">
+                        <option value='no_options'>No options</option>
+                {% for option in options %} 
+                    <option value={{ option.id }}>{{ option.name }}</option>
+                {% endfor %}
+                </select>
+            {% endif %} #}
+            {% if options %} 
+                {% for option in options %} 
+                    <input type="checkbox" name="options[{{ ticket.id }}][]" value={{ option.id }}>
+                    <label for="options[{{ ticket.id }}]">{{ option.name }} - {{ option.price }}</label></br>
+                {% endfor %}
+            {% endif %}
         </div>
-    </div>
-    {{ form_end(form) }}
-    </div>
+        {% endfor %}
+        <button id="buttonChoose" class="btnChoose" type="submit">Continue</button>
+    </form>
+</div>
 {% endblock %}

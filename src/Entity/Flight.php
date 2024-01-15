@@ -49,10 +49,10 @@ class Flight
     private ?Collection $tickets = null;
 
     /**
-     * @var Collection|null $soldTickets
+     * @var string|null $date
      */
-    #[ORM\OneToMany(mappedBy: 'flight', targetEntity: SoldTicket::class)]
-    private ?Collection $soldTickets = null;
+    #[ORM\Column]
+    private string|null $date = null;
 
     /**
      * @var \DateTimeImmutable|null $departureTime
@@ -77,10 +77,10 @@ class Flight
         $this->pointOfDeparture = $pointOfDeparture;
         $this->arrivalPoint = $arrivalPoint;
         $this->airplane = $airplane;
+        $this->date = $departureTime->format('Y-m-d');
         $this->departureTime = $departureTime;
         $this->arrivalTime = $arrivalTime;
         $this->tickets = new ArrayCollection();
-        $this->soldTickets = new ArrayCollection();
     }
 
     /**
@@ -150,6 +150,14 @@ class Flight
     /**
      * @return string
      */
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return string
+     */
     public function getDepartureTimeString(): string 
     {
         return $this->departureTime->format('Y-m-d h:i');
@@ -193,13 +201,5 @@ class Flight
     public function getTickets(): Collection
     {
         return $this->tickets;        
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getSoldTickets(): Collection
-    {
-        return $this->soldTickets;        
     }
 }

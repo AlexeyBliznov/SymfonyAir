@@ -4,8 +4,17 @@
 
 {% block body %}
 
-    <p>Your ticket:</p>
-
-    {{ ticketNumber }}
+    
+    {% if ticketNumbers|length < 1 %} 
+        <p>Ooops, you don't book any tickets</p> 
+    {% elseif ticketNumbers|length == 1 %}
+        <p>Your tickets number:</p>
+        {{ ticketNumbers[0] }}
+    {% else %} 
+        <p>Your tickets numbers:</p>
+        {% for ticketNumber in ticketNumbers %}
+            <p>{{ ticketNumber }}</p>
+        {% endfor %}
+    {% endif %}
 
 {% endblock %}

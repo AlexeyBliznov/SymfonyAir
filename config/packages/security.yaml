@@ -75,8 +75,8 @@ security:
          - { path: ^/admin/checkInManager, roles: ROLE_CHECK_IN_MANAGER }
          - { path: ^/admin/gate, roles: ROLE_GATE_MANAGER }
          - { path: ^/confirmation, roles: ROLE_USER }
+         - { path: ^/pesronal, roles: ROLE_USER }
     role_hierarchy:
-        ROLE_GATE_MANAGER: ROLE_USER
         ROLE_CHECK_IN_MANAGER: ROLE_GATE_MANAGER
         ROLE_SUPERVISOR: ROLE_CHECK_IN_MANAGER
 

@@ -32,68 +32,49 @@ class TicketsController extends AbstractController
      */
     #[Route('/search', name: 'search_tickets')]
     public function searchTickets(Request $request, FlightRepository $flightRepository): Response
-    {
-        // if ($request->get('from')&$request->get('to')&$request->get('date')) {
-        //     $flights = $flightRepository->searchFlight($request->get('from'), $request->get('to'), $request->get('date'));
-        //     return $this->render('customer/searchTickets.html.twig', [
-        //         'flights' => $flights
-        //     ]);
-        // } elseif ($request->get('from')&$request->get('to')) {
-        //     $flights = $flightRepository->searchFlightByFromAndTo($request->get('from'), $request->get('to'));
-        //     return $this->render('customer/searchTickets.html.twig', [
-        //         'flights' => $flights
-        //     ]);
-        // } elseif ($request->get('from')&$request->get('date')) {
-        //     $flights = $flightRepository->searchFlightByFromAndDate($request->get('from'), $request->get('date'));
-        //     return $this->render('customer/searchTickets.html.twig', [
-        //         'flights' => $flights
-        //     ]);
-        // } elseif ($request->get('from')) {
-        //     $flights = $flightRepository->searchFlightByFrom($request->get('from'));
-        //     return $this->render('customer/searchTickets.html.twig', [
-        //         'flights' => $flights
-        //     ]);
-        // } elseif ($request->get('date')) {
-        //     $flights = $flightRepository->searchFlightByDate($request->get('date'));
-        //     return $this->render('customer/searchTickets.html.twig', [
-        //         'flights' => $flights
-        //     ]);
+    {   
+        // switch(true) {
+        //     case $request->get('from')&$request->get('to')&$request->get('date'):
+        //         $flights = $flightRepository->searchFlight($request->get('from'), $request->get('to'), $request->get('date'));
+        //         return $this->render('customer/searchTickets.html.twig', [
+        //             'flights' => $flights
+        //         ]);
+        //         break;
+        //     case $request->get('from')&$request->get('to'):
+        //         $flights = $flightRepository->searchFlightByFromAndTo($request->get('from'), $request->get('to'));
+        //         return $this->render('customer/searchTickets.html.twig', [
+        //             'flights' => $flights
+        //         ]);
+        //         break;
+        //     case $request->get('from')&$request->get('date'):
+        //         $flights = $flightRepository->searchFlightByFromAndDate($request->get('from'), $request->get('date'));
+        //         return $this->render('customer/searchTickets.html.twig', [
+        //             'flights' => $flights
+        //         ]);
+        //         break;
+        //     case $request->get('from'):
+        //         $flights = $flightRepository->searchFlightByFrom($request->get('from'));
+        //         return $this->render('customer/searchTickets.html.twig', [
+        //             'flights' => $flights
+        //         ]);
+        //         break;
+        //     case $request->get('to')&$request->get('date'):
+        //         $flights = $flightRepository->searchFlightByToDate($request->get('to'), $request->get('date'));
+        //         return $this->render('customer/searchTickets.html.twig', [
+        //             'flights' => $flights
+        //         ]);
+        //         break;
         // }
-
-        
-        switch(true) {
-            case $request->get('from')&$request->get('to')&$request->get('date'):
-                $flights = $flightRepository->searchFlight($request->get('from'), $request->get('to'), $request->get('date'));
-                return $this->render('customer/searchTickets.html.twig', [
-                    'flights' => $flights
-                ]);
-                break;
-            case $request->get('from')&$request->get('to'):
-                $flights = $flightRepository->searchFlightByFromAndTo($request->get('from'), $request->get('to'));
-                return $this->render('customer/searchTickets.html.twig', [
-                    'flights' => $flights
-                ]);
-                break;
-            case $request->get('from')&$request->get('date'):
-                $flights = $flightRepository->searchFlightByFromAndDate($request->get('from'), $request->get('date'));
-                return $this->render('customer/searchTickets.html.twig', [
-                    'flights' => $flights
-                ]);
-                break;
-            case $request->get('from'):
-                $flights = $flightRepository->searchFlightByFrom($request->get('from'));
-                return $this->render('customer/searchTickets.html.twig', [
-                    'flights' => $flights
-                ]);
-                break;
-            case $request->get('to')&$request->get('date'):
-                $flights = $flightRepository->searchFlightByToDate($request->get('to'), $request->get('date'));
-                return $this->render('customer/searchTickets.html.twig', [
-                    'flights' => $flights
-                ]);
-                break;
+        if ($request->get('from') & $request->get('to') & $request->get('date')) {
+            $flights = $flightRepository->searchFlight($request->get('from'), $request->get('to'), $request->get('date'));
+            return $this->render('customer/searchTickets.html.twig', [
+                'flights' => $flights,
+                'passengers' => $request->get('passengers')
+            ]);
+            // return $this->render('test.html.twig', [
+            //          'result' => var_dump($request->get('date'))
+            // ]);
         }
-        
         return $this->redirectToRoute('welcome');
     }
     
@@ -105,18 +86,18 @@ class TicketsController extends AbstractController
      * @param TicketRepository $ticketRepository
      * @return Response
      */
-    #[Route('/chooseTicket/{flight}', name: 'choose_ticket')]
+    #[Route('/chooseTicket/{flightId}', name: 'choose_ticket')]
     public function buy(
-        int $flight,
+        int $flightId,
         FlightRepository $flightRepository,
         TicketRepository $ticketRepository
     ): Response
     {
-        $flightInfo = $flightRepository->findById($flight);
-        $tickets = $ticketRepository->findByFlight($flightInfo);
+        $flight = $flightRepository->findById($flightId);
+        $tickets = $ticketRepository->findByFlight($flight);
 
         return $this->render('customer/informationAboutFlight.html.twig', [
-            'flight' => $flightInfo,
+            'flight' => $flight,
             'tickets' => $tickets
         ]);
     }
@@ -125,107 +106,146 @@ class TicketsController extends AbstractController
      * Add options route
      * 
      * @param Request $request
-     * @param int $ticket
      * @param OptionRepository $optionRepository
      * @param TicketRepository $ticketRepository
      * @return Response
      */
-    #[Route('/addOptions/{ticket}', name: 'add_options')]
-    public function choose(Request $request, int $ticket, OptionRepository $optionRepository, TicketRepository $ticketRepository): Response
+    #[Route('/addOptions', name: 'add_options')]
+    public function choose(Request $request, OptionRepository $optionRepository, TicketRepository $ticketRepository): Response
     {
-        $command = new UseCase\Customer\AddOptions\Command();
-        $form = $this->createForm(UseCase\Customer\AddOptions\Form::class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $baggage = $command->baggage;
-            return $this->redirectToRoute('confirmation', [
-                'ticket' => $ticket,
-                'option' => $command->options,
-                'baggage' => $baggage->getName()
-            ]);
+        $options = $optionRepository->findAll();
+        $ticketsId = $request->get('seat');
+        $tickets = [];
+        foreach ($ticketsId as $ticketId) {
+            $tickets[] = $ticketRepository->find($ticketId);
         }
+        // return $this->render('test.html.twig', [
+        //     'result' => var_dump($tickets)
+        // ]);
+        // $command = new UseCase\Customer\AddOptions\Command();
+        // $form = $this->createForm(UseCase\Customer\AddOptions\Form::class, $command);
+        // $form->handleRequest($request);
+
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $baggage = $command->baggage;
+        //     return $this->redirectToRoute('confirmation', [
+        //         'ticket' => $ticket,
+        //         'option' => $command->options,
+        //         'baggage' => $baggage->getName()
+        //     ]);
+        // }
+        // // return $this->render('test.html.twig', [
+        // //     'result' => var_dump($request->get('seat'))
+        // // ]);
 
         return $this->render('customer/addOptions.html.twig', [
-            'form' => $form->createView()
+            'tickets' => $tickets,
+            'options' => $options
         ]);
     }
 
     /**
      * Confirmation of the purchase route
      * 
-     * @param int $ticket
-     * @param int $option
-     * @param string $baggage
      * @param TicketRepository $ticketRepository
      * @param OptionRepository $optionRepository
      * @return Response
      */
-    #[Route('/confirmation/{ticket}/{option}/{baggage}', name: 'confirmation')]
+    #[Route('/confirmation', name: 'confirmation')]
     public function confirmation(
-        int $ticket,
-        int $option,
-        string $baggage,
-        TicketRepository $ticketRepository,
-        OptionRepository $optionRepository
-    ): Response
-    {
-         $ticketInfo = $ticketRepository->find($ticket);
-        
-        $optionInfo = ($option !== 0) ? $optionRepository->find($option) : ['name' => 'No options', 'price' => 0, 'id' => 0];
-        $user = $this->getUser();
-        $userName = ($user->getName() === null) ? 'Your name' : $user->getName();
-
-
-        return $this->render('customer/confirmation.html.twig', [
-            'ticket' => $ticketInfo,
-            'option' => $optionInfo,
-            'baggage' => $baggage,
-            'userName' => $userName,
-            'email' => $user->getEmail()
-        ]);
-    }
-
-    /**
-     * Completion of the purchase route
-     * 
-     * @param int $ticket
-     * @param int $option
-     * @param string $baggage
-     * @param TicketRepository $ticketRepository
-     * @param OptionRepository $optionRepository
-     * @param EntityManagerInterface $entityManager
-     * @param MailTicketSender $mailTicketSender
-     * @param Request $request
-     * @return Response
-     */
-    #[Route('/completion/{ticket}/{option}/{baggage}', name: 'completition')]
-    public function completionOfOrder(
-        int $ticket,
-        int $option,
-        string $baggage,
+        Request $request,
         TicketRepository $ticketRepository,
         OptionRepository $optionRepository,
         EntityManagerInterface $entityManager,
-        MailTicketSender $mailTicketSender,
-        Request $request
+        MailTicketSender $mailTicketSender
     ): Response
     {
-        $user = $this->getUser();
-        $ticket = $ticketRepository->find($ticket);
-        $option = $optionRepository->find($option);
-        $baggageObj = new Baggage($baggage);
-        $soldTicket = new SoldTicket($ticket->getTicketNumber(), $ticket->getFlight(), $user, $ticket->getSeatTypeObj(), $ticket->getSeatNumber(), $baggageObj);
-        if($option) {
-            $soldTicket->addOption($option);
-        };
-        $entityManager->persist($soldTicket);
-        $entityManager->flush();
-        $mailTicketSender->send($request->get('email'), (string)$ticket->getTicketNumber());
-        $ticketRepository->remove($ticket, true);
-        return $this->render('customer/completion.html.twig', [
-            'soldTicket' => $soldTicket,
-            'user' => $user
+        if($request->get('names') and $request->get('email')) {
+            $passengersNames = $request->get('names');
+            $ticketsNumbers = [];
+            $user = $this->getUser();
+            foreach ($passengersNames as $ticketId => $passengerName) {
+                $ticket = $ticketRepository->find($ticketId);
+                    $ticket->setPassengerName($passengerName);
+                    $ticketsNumbers[] = $ticket->getTicketNumber();
+                    $entityManager->flush();
+            }
+            $mailTicketSender->send($request->get('email'), $ticketsNumbers);
+            return $this->render('customer/completion.html.twig', [
+                'user' => $user
+            ]);
+        } else {
+            $user = $this->getUser();
+            $baggage = $request->get('baggage');
+            $options = $request->get('options');
+            $ticketsNumbers = [];
+            $bookTickets = [];
+            foreach ($baggage as $ticketId => $baggageName) {
+                $ticket = $ticketRepository->find($ticketId);
+                $ticket->bookTicket($user, new Baggage($baggageName));
+                if ($options) {
+                    if (array_key_exists($ticketId, $options)) {
+                        foreach ($options[$ticketId] as $optionId) {
+                            $ticket->addOption($optionRepository->find($optionId));
+                        }
+                    }
+                }
+                $bookTickets[] = $ticket;
+                $entityManager->flush();
+            }
+
+            return $this->render('customer/confirmation.html.twig', [
+                'tickets' => $bookTickets
+            ]);
+        }
+    }
+
+    // /**
+    //  * Completion of the purchase route
+    //  * 
+    //  * @param int $ticket
+    //  * @param int $option
+    //  * @param string $baggage
+    //  * @param TicketRepository $ticketRepository
+    //  * @param OptionRepository $optionRepository
+    //  * @param EntityManagerInterface $entityManager
+    //  * @param MailTicketSender $mailTicketSender
+    //  * @param Request $request
+    //  * @return Response
+    //  */
+    // #[Route('/confirmation/completion', name: 'completition')]
+    // public function completionOfOrder(
+    //     int $ticket,
+    //     int $option,
+    //     string $baggage,
+    //     TicketRepository $ticketRepository,
+    //     OptionRepository $optionRepository,
+    //     EntityManagerInterface $entityManager,
+    //     MailTicketSender $mailTicketSender,
+    //     Request $request
+    // ): Response
+    // {
+    //     $user = $this->getUser();
+    //     $ticket = $ticketRepository->find($ticket);
+    //     $option = $optionRepository->find($option);
+    //     $baggageObj = new Baggage($baggage);
+    //     $ticket->sellTicket($user, $baggageObj);
+    //     if($option) {
+    //         $ticket->addOption($option);
+    //     };
+    //     $entityManager->flush();
+    //     $mailTicketSender->send($request->get('email'), (string)$ticket->getTicketNumber());
+    //     return $this->render('customer/completion.html.twig', [
+    //         'soldTicket' => $ticket,
+    //         'user' => $user
+    //     ]);
+    // }
+
+    #[Route('/test', name: 'test')]
+    public function test(Request $request): Response
+    {
+        return $this->render('test.html.twig', [
+            'result' => var_dump($request->get('options'))
         ]);
     }
 }

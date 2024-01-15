@@ -46,22 +46,7 @@ window.validateSearchForm = function(){
     }
 }
 
-const options = {
-    input: true,
-    actions: {
-      changeToInput(e, calendar, dates, time, hours, minutes, keeping) {
-        if (dates[0]) {
-          calendar.HTMLInputElement.value = dates[0];
-          calendar.hide();
-        } else {
-          calendar.HTMLInputElement.value = '';
-        }
-      },
-    },
-  };
-  
-  const calendarInput = new VanillaCalendar('#calendar', options);
-  calendarInput.init();
+
   
 const passengers = document.getElementById("passengers");
 
@@ -116,6 +101,28 @@ function bgChange() {
 window.setInterval(bgChange, bgInterval);
 window.addEventListener('load', bgChange);
 
+// let options = {
+//   input: true,
+//   actions: {
+//     changeToInput(e, calendar, dates, time, hours, minutes, keeping) {
+//       if (dates[0]) {
+//         calendar.HTMLInputElement.value = dates[0];
+//         calendar.hide();
+//       } else {
+//         calendar.HTMLInputElement.value = '';
+//       }
+//     },
+//   },
+//   settings: {
+//     range: {
+//       disableAllDays: true,
+//       enabled: ['2022-08-10:2022-08-13', '2022-08-22'],
+//     }
+//   },
+// };
+// let calendarInput = new VanillaCalendar('#calendar', options);
+// calendarInput.init();
+
 let inputFrom = document.getElementById("from");
 let inputTo = document.getElementById("to");
 $(inputFrom).change( function() {
@@ -136,12 +143,56 @@ $(inputFrom).change( function() {
                   element.setAttribute('value', city);
                   element.setAttribute('class', 'option');
                   datalist.insertBefore(element, null);
-                  checkUnique = city;
+                  checkUnique.push(city);
                 } else {
                   continue;
                 }
               }
               inputTo.removeAttribute('disabled');
+            }
+  });
+})
+
+$(inputTo).change( function() {
+  let from = inputFrom.value;
+  let to = inputTo.value;
+  $.ajax({
+    type: "GET",
+    url: "/api/dates/" + from + "/" + to,
+    data: $(this).serialize(),
+            success: function(data)
+            {
+              let datalist = document.getElementById('mainDirections');
+              let checkUnique = [];
+               for(const date of data) {
+                if(!checkUnique.includes(date)) {
+                  checkUnique.push(date);
+                } else {
+                  continue;
+                }
+              }
+              console.log(checkUnique);
+              let options = {
+                input: true,
+                actions: {
+                  changeToInput(e, calendar, dates, time, hours, minutes, keeping) {
+                    if (dates[0]) {
+                      calendar.HTMLInputElement.value = dates[0];
+                      calendar.hide();
+                    } else {
+                      calendar.HTMLInputElement.value = '';
+                    }
+                  },
+                },
+                settings: {
+                  range: {
+                    disableAllDays: true,
+                    enabled: checkUnique,
+                  }
+                },
+              };
+              let calendarInput = new VanillaCalendar('#calendar', options);
+              calendarInput.init();
             }
   });
 })

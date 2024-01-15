@@ -4,8 +4,10 @@
 
 {% block body %}
 <div class="generalInformation">
-    Your ticket number is {{ soldTicket.ticketNumber }}
-    
-    Passanger is {{ user.name }}
+    {% if user.name %} 
+        {{ user.name }} your tickets in your Email. 
+    {% else %}
+        Your tickets in your Email. 
+    {% endif %}
 </div>
 {% endblock %}

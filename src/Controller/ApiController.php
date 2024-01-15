@@ -22,4 +22,17 @@ class ApiController extends AbstractController
         }
         return $this->json($result, 200);
     }
+
+    #[Route('/dates/{pointOfDeparture}/{arrivalPoint}', name: 'dates', methods: ['get'])]
+    public function dates(string $pointOfDeparture, string $arrivalPoint, FlightRepository $flightRepository): JsonResponse
+    {
+        $flights = $flightRepository->searchFlightByFromAndTo($pointOfDeparture, $arrivalPoint);
+        $result = [];
+        if ($flights) {
+            foreach ($flights as $flight) {
+                $result[] = $flight->getDate();
+            }
+        }
+        return $this->json($result, 200);
+    }
 }

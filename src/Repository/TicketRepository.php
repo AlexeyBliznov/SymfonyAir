@@ -30,6 +30,7 @@ class TicketRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->where('t.flight = :flight')
             ->setParameter(':flight', $flight)
+            ->orderBy('t.id', 'ASC')
             ->getQuery()->getResult();
     }
 

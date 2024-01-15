@@ -8,7 +8,12 @@
 </div>
 <div class="list">
     {% for ticket in tickets %}
-        <li>{{ ticket.flight.pointOfDeparture }} - {{ ticket.flight.arrivalPoint }} - {{ ticket.seatNumber }}</li>
+        <li>{{ ticket.flight.pointOfDeparture }} - {{ ticket.flight.arrivalPoint }} - {{ ticket.seatNumber }} - {{ ticket.baggage }}</li>
+        {% if ticket.options %}
+            {% for option in ticket.options %}
+                {{ option.name }}
+            {% endfor %} 
+        {% endif %}
     {% endfor %}
 </div>
 {% endblock %}

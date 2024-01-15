@@ -2,6 +2,8 @@
 
 {% block title %}Flight{% endblock %}
 
+{% block javascripts %}{{ encore_entry_script_tags('chooseTicketsPage') }}{% endblock %}
+
 {% block body %}
 <div class="conteinerForm">
     <h1>Flight {{ flight.pointOfDeparture }} - {{ flight.arrivalPoint }}</h1>
@@ -14,80 +16,58 @@
 <div class="generalInformation" style="margin-top: 30px;">
     You can choose seats
 </div> 
+<form action="{{ path('add_options') }}" method="post" name="chooseForm">
 <div id="scheme_main">
     <div id="scheme">
         {% for ticket in tickets %}
         {% if 'A' in ticket.seatNumber and '9' in ticket.seatNumber and '19' not in ticket.seatNumber %}
+            {% if ticket.book %}
+                <div class="flex_scheme emergency">
+                    <input class="seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" disabled value={{ ticket.id }}>
+            {% else %}
             <div class="flex_scheme emergency">
-                <input class="seat" type="checkbox" name="seat" value={{ ticket.id }}>
+                <input class="seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" value={{ ticket.id }} onclick="choose(this.id, '{{ ticket.seatType }}', '{{ ticket.seatNumber }}', '{{ ticket.price }}')">
+            {% endif %}
                 {# <a href="/addOptions/{{ ticket.id }}"><div class="seat"></div></a> #}
         {% elseif 'A' in ticket.seatNumber %}
-            <div class="flex_scheme">
-                <input class="seat" type="checkbox" name="seat" value={{ ticket.id }}>
+            {% if ticket.book %}
+                <div class="flex_scheme">
+                    <input class="seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" disabled value={{ ticket.id }}>
+            {% else %}
+                <div class="flex_scheme">
+                    <input class="seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" value={{ ticket.id }} onclick="choose(this.id, '{{ ticket.seatType }}', '{{ ticket.seatNumber }}', '{{ ticket.price }}')">
+            {% endif %}
                 {# <a href="/addOptions/{{ ticket.id }}"><div class="seat"></div></a> #}
         {% elseif 'C' in ticket.seatNumber %}
-            <input class="seat third_seat" type="checkbox" name="seat" value={{ ticket.id }}>
+            {% if ticket.book %}
+                <input class="seat third_seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" disabled value={{ ticket.id }}>
+            {% else %}
+                <input class="seat third_seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" value={{ ticket.id }} onclick="choose(this.id, '{{ ticket.seatType }}', '{{ ticket.seatNumber }}', '{{ ticket.price }}')">
+            {% endif %}
             {# <a href="/addOptions/{{ ticket.id }}"><div class="seat third_seat"></div></a> #}
         {% elseif 'F' in ticket.seatNumber %}
-            <input class="seat" type="checkbox" name="seat" disabled value={{ ticket.id }}>
+            {% if ticket.book %}
+                <input class="seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" disabled value={{ ticket.id }}>
                 {# <a href="/addOptions/{{ ticket.id }}"><div class="seat"></div></a> #}
-            </div>
+                </div>
+            {% else %}
+                <input class="seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" value={{ ticket.id }} onclick="choose(this.id, '{{ ticket.seatType }}', '{{ ticket.seatNumber }}', '{{ ticket.price }}')">
+                </div>
+            {% endif %}
         {% else %}
-            <input class="seat" type="checkbox" name="seat" value={{ ticket.id }}>
+            {% if ticket.book %}
+                <input class="seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" disabled value={{ ticket.id }}>
+            {% else %}
+                <input class="seat" type="checkbox" id={{ ticket.ticketNumber }} name="seat[]" value={{ ticket.id }} onclick="choose(this.id, '{{ ticket.seatType }}', '{{ ticket.seatNumber }}', '{{ ticket.price }}')">
+            {% endif %}
             {# <a href="/addOptions/{{ ticket.id }}"><div class="seat"></div></a> #}
         {% endif %}
         {% endfor %}
     </div> 
-<!-- <div id="scheme">
-    <div class="flex_scheme">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat third_seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-    </div>
-    <div class="flex_scheme">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat  third_seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-    </div>
-    <div class="flex_scheme">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat  third_seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-    </div>
-    <div class="flex_scheme">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat third_seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-    </div>
-    <div class="flex_scheme">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat third_seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-    </div>
-    <div class="flex_scheme">
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat third_seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-        <div class="seat"></div>
-    </div>
-</div> -->
-</div> 
-
+</div>
+<div id="checked" style="display:none"> 
+<div id="checkedTickets"></div>
+<button id="buttonChoose" class="btnChoose" type="submit">Choose</button>
+</div>
+</form>
 {% endblock %}

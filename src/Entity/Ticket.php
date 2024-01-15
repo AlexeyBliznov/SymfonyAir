@@ -7,6 +7,9 @@ namespace App\Entity;
 use App\Repository\TicketRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Stringable;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 class Ticket
@@ -32,6 +35,31 @@ class Ticket
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $price = null;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $book = false;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    private ?User $user = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $passengerName = null;
+
+    #[ORM\Column(type: 'user_baggage_type', length: 255, nullable: true)]
+    private ?Baggage $baggage = null;
+
+    #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'tickets')]
+    private ?Collection $options = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $discount = null;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $boardingConfirm = false;
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $checkIn = false;
+
     public function __construct(
         int $ticketNumber,
         Flight $flight,
@@ -45,11 +73,29 @@ class Ticket
         $this->seatType = $seatType;
         $this->seatNumber = $seatNumber;
         $this->price = $price;
+        $this->options = new ArrayCollection();
+    }
+
+    public function bookTicket(User $user, Baggage $baggage): void
+    {
+        $this->book = true;
+        $this->user = $user;
+        $this->baggage = $baggage;
     }
 
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getBook(): bool
+    {
+        return $this->book;
+    }
+
+    public function setPassengerName(string $passengerName): void
+    {
+        $this->passengerName = $passengerName;
     }
 
     public function getTicketNumber(): ?int
@@ -80,5 +126,58 @@ class Ticket
     public function getPrice(): int
     {
         return $this->price;    
+    }
+
+    /**
+     * @return Baggage|null
+     */
+    public function getBaggage(): ?string
+    {
+        return $this->baggage->getName();
+    }
+
+    /**
+     * @param Baggage $baggage
+     * @return Baggage|null
+     */
+    public function setBaggage(Baggage $baggage): self
+    {
+        $this->baggage = $baggage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getOptions(): Collection
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param Option $option
+     */
+    public function addOption(Option $option): void
+    {
+        if (!$this->options->contains($option)) {
+            $this->options[] = $option;
+        }   
+    }
+
+    /**
+     * @return void
+     */
+    public function checkIn(): void
+    {
+        $this->checkIn = true;        
+    }
+
+    /**
+     * @return void
+     */
+    public function confirmBoarding(): void
+    {
+        $this->boardingConfirm = true;
     }
 }

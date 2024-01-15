@@ -20,14 +20,14 @@ class MailTicketSender extends AbstractController
         $this->twig = $twig;
     }
 
-    public function send(string $email, string $ticketNumber): void
+    public function send(string $email, array $ticketNumbers): void
     {
         $massege = (new Mime\Email())
             ->to($email)
             ->subject('Your ticket')
-            ->text("It's your ticket")
+            ->text("It's your tickets")
             ->html($this->twig->render('mail/ticket.html.twig', [
-                'ticketNumber' => $ticketNumber
+                'ticketNumbers' => $ticketNumbers
             ]));
 
         $this->mailer->send($massege);
